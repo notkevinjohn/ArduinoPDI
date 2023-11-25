@@ -109,6 +109,10 @@ bool writeData(char dataIn[]){
 		return 0;
 	}
 }
+//[callable, testable]
+bool testFunction(char input1, int input2, bool input3){
+}
+
 
 boolean setupNano(long baudRate){
 	nano.begin(softSerial);

@@ -5,15 +5,13 @@ from FunctionData import FunctionData
 
 class ArduinoSketchParser():
 	adornmentPattern = "^\/\/\[(.*?)\]"
-	adornments = {}
-	sanitized = []
-	code = []
+	adornedFunctions = {}
 
 	def __init__(self, target):
-		self.parse(target)
+		self.target = target
 
-	def parse(self, target):
-		with open (target) as file:
+	def parse(self):
+		with open (self.target) as file:
 			lines = file.readlines()
 			for i in range(0,len(lines)):
 				line = lines[i]
@@ -21,7 +19,12 @@ class ArduinoSketchParser():
 					adornmentKeys = self.parseAdornment(line)
 					nextLine = lines[i+1]
 					functionData = self.extractFunctionData(nextLine)
-					print (functionData)
+					for key in adornmentKeys:
+						if not key in self.adornedFunctions:
+							self.adornedFunctions[key] = []
+						self.adornedFunctions[key].append(functionData)
+
+		return self.adornedFunctions
 
 	def checkAdornment(self, line):
 		if re.match(self.adornmentPattern, line):
