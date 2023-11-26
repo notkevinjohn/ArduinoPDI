@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import re
 from TypeMapping import TypeMapping
-from FunctionData import FunctionData
+from FunctionData import *
 
 class ArduinoSketchParser():
 	adornmentPattern = "^\/\/\[(.*?)\]"
@@ -54,9 +54,29 @@ class ArduinoSketchParser():
 				break
 			type = arg.split(" ")[0].strip()
 			name = arg.split(" ")[1].strip()
+			array, length, name = self.checkVariableName(name)
 			if TypeMapping.validateType(type):
-				fdata.args.append([type, name])
+				farg = FunctionArg()
+				farg.name = name
+				farg.ctype = type
+				farg.ptype = TypeMapping.types[type]
+				farg.array = array
+				farg.length = length
+				fdata.args.append(farg)
 		return fdata
+
+	def checkVariableName(self, variableName):
+		array = False
+		length = None
+
+		if "[" in variableName and "]" in variableName:
+			array = True
+			length = variableName.split("[")[1]
+			length = length.split("]")[0]
+			variableName = variableName.replace("["+length+"]", "")
+			if length == "":
+				length = None
+		return array, length, variableName
 
 
 

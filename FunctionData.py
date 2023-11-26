@@ -15,3 +15,15 @@ class FunctionData():
 		string += ")"
 		return string
 
+
+class FunctionArg():
+	ctype = None
+	ptype = None
+	array = None
+	length = None
+
+	def __str__(self):
+		string = str(ctype)
+		string += "->"
+		string += str(ptype)
+		return string
