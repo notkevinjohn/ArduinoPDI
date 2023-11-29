@@ -1,10 +1,29 @@
-class FunctionData():
-	name = None
-	returnType = None
-	args = []
+class SketchData():
+	def __init__(self):
+		self.name = None
+		self.version = None
+		self.baudrate = None
+		self.adornedFunctions = {}
 
 	def __str__(self):
-		args = [str(x[0])+" "+str(x[1]) for x in self.args]
+		string = ""
+		string+="name: "+self.name+"\n"
+		string+="version: "+self.version+"\n"
+		string+="baudrate: "+str(self.baudrate)+"\n"
+		for key in self.adornedFunctions:
+			string += key+"\n"
+			for function in self.adornedFunctions[key]:
+				string += str(function)+"\n"
+		return string
+
+class FunctionData():
+	def __init__(self):
+		self.name = None
+		self.returnType = None
+		self.args = []
+
+	def __str__(self):
+		args = [x.ctype+" "+x.name for x in self.args]
 		argString = ", ".join(args)
 		string = ""
 		string += self.returnType
@@ -21,6 +40,7 @@ class FunctionArg():
 	ptype = None
 	array = None
 	length = None
+	name =  None
 
 	def __str__(self):
 		string = str(ctype)

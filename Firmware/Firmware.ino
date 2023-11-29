@@ -1,6 +1,7 @@
 char message[10];
 int messageIndex=0;
 
+
 void setup() {
 	Serial.begin(9600);
 	while(!Serial){delay(1);}
@@ -11,9 +12,11 @@ void loop() {
 	if(Serial.available() > 0 ){
 		serialMessage();
         }
+
 }
 
-String serialMessage(){
+String serialMessage()
+{
         char c = Serial.read();
         if (c == '\r'){
                Serial.println(message);
