@@ -56,10 +56,11 @@ class PythonClassExporter():
 		header += "("
 		pargs = ['self']
 		for arg in function.args:
-			pargs.append(arg.name)
-
+			pargs.append(arg.name+' : '+arg.ptype)
 		header+=", ".join(pargs)
 		header += "):"
+		header += " -> "
+		header += function.returnPType
 		return header
 
 

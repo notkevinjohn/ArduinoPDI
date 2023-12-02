@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import re
 from TypeMapping import TypeMapping
-from FunctionData import *
+from SketchData import *
 
 class ArduinoSketchParser():
 	adornmentPattern = "^\/\/\[(.*?)\]"
@@ -82,9 +82,10 @@ class ArduinoSketchParser():
 	def extractFunctionData(self, fstring):
 		fdata = FunctionData()
 		fdata.name = fstring.split(" ")[1].split("(")[0]
-		returnType = fstring.split(" ")[0]
-		if TypeMapping.validateType(returnType):
-			fdata.returnType = returnType
+		returnCType = fstring.split(" ")[0]
+		if TypeMapping.validateType(returnCType):
+			fdata.returnCType = returnCType
+			fdata.returnPType = TypeMapping.types[returnCType]
 		args = fstring.split("(")[1].split(")")[0].split(",")
 		args = [x.strip() for x in args]
 		for arg in args:
